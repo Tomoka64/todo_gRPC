@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package todo;
+
+message Task {
+    string text = 1;
+}
+
+message TaskList {
+    repeated Task tasks = 1;
+}
+
+message Text {
+string text = 1;
+}
+
+message Empty {}
+
+service Tasks {
+    rpc List(Empty) returns(TaskList) {}
+    rpc Add(Text) returns(Task) {}
+}
