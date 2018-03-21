@@ -20,7 +20,7 @@ func main() {
 
 	conn, err := grpc.Dial(":8888", grpc.WithInsecure())
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "could not connect to backend: %v\n", err)
+		fmt.Fprintf(os.Stderr, "could not connect%v\n", err)
 		os.Exit(1)
 	}
 	client := todo.NewTasksClient(conn)

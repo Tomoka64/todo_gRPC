@@ -36,16 +36,16 @@ func (taskServer) Add(ctx context.Context, text *todo.Text) (*todo.Task, error) 
 
 	b, err := json.Marshal(task)
 	if err != nil {
-		return nil, fmt.Errorf("%s", err)
+		return &todo.Task{}, fmt.Errorf("%s", err)
 	}
 
 	f, err := os.OpenFile(dbPath, os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		return nil, fmt.Errorf("%s", err)
+		return &todo.Task{}, fmt.Errorf("%s", err)
 	}
 	_, err = f.Write(b)
 	if err != nil {
-		return nil, fmt.Errorf("%s", err)
+		return &todo.Task{}, fmt.Errorf("%s", err)
 	}
 
 	defer f.Close()
@@ -55,7 +55,7 @@ func (taskServer) Add(ctx context.Context, text *todo.Text) (*todo.Task, error) 
 func (taskServer) List(ctx context.Context, empty *todo.Empty) (*todo.TaskList, error) {
 	contents, err := ioutil.ReadFile(dbPath)
 	if err != nil {
-		return nil, fmt.Errorf("could not read %s: %v", dbPath, err)
+		return &todo.TaskList{}, fmt.Errorf("could not read %s: %v", dbPath, err)
 	}
 	var tasks *todo.TaskList
 	err = json.Unmarshal(contents, tasks)
